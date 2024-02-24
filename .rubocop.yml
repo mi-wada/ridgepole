@@ -3,6 +3,11 @@ AllCops:
     - "gemfiles/**/*"
     - "omnibus-ridgepole/**/*"
     - "vendor/bundle/**/*"
+  # Exclude all files at .gitignore
+  # ref: https://docs.rubocop.org/rubocop/configuration.html#pre-processing
+  <% `git status --ignored --porcelain`.lines.grep(/^!! /).each do |path| %>
+    - <%= path.sub(/^!! /, '').sub(/\/$/, '/**/*') %>
+  <% end %>
   TargetRubyVersion: 2.7
   NewCops: enable
   SuggestExtensions: false
